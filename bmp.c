@@ -29,6 +29,11 @@ int ceilling(int x, int y) {
     return x%y == 0 ? x/y : (x/y)+1;
 }
 
+int floor(int x, int y) {
+    // Condicao ternaria
+    return x%y == 0 ? x/y : (x/y)-1;
+}
+
 int checkBit(unsigned char *ch, int position) {
     unsigned char result;
 
