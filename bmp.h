@@ -26,4 +26,5 @@ typedef struct {
 
 void fillHeader(BFHeader *, FILE *);
 int ceilling(int, int);
+int floor(int, int);
 int checkBit(unsigned char *, int);
