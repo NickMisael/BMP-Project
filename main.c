@@ -12,20 +12,15 @@ void usage(char *prog_name) {
 
 unsigned char **repBMP; // Representacao do BMP na memoria
 
-int main(int argc, char **argv){
-
+int main(int argc, char **argv) {
     if(argc != 2)
         usage(argv[0]);
 
     FILE *fp;
     int totalWidth = 0, bytesPerRow = 0;
     int y, x;
-    int actualByte = 0;
-    int count = 0;
-    int readBits = 0;
-    int quantBitsSeguidos = 0;
-    unsigned char bitAtual = 1; // Meu Run lenght comeca considerando preto como a cor
-    unsigned char temp = 0;
+    int actualByte = 0, count = 0, readBits = 0, quantBitsSeguidos = 0;
+    unsigned char bitAtual = 1, temp = 0;
 
     if((fp = fopen(argv[1], "rb")) == NULL) {
         printf("Failed to open image!\n");
@@ -49,20 +44,21 @@ int main(int argc, char **argv){
     // BMP Console Reader
     totalWidth = bf.BIHeader.bitsPerPixel * bf.BIHeader.imageWidth;
     bytesPerRow = ceilling(totalWidth, 32) * 4;
+    //bytesPerRow = floor(totalWidth+31,32) * 4;
     repBMP = (unsigned char **) malloc(bf.BIHeader.imageHeight * sizeof(unsigned char *));
 
     // Offset dos pixels da imagem
     fseek(fp, bf.pixelDataOffset, SEEK_SET);
 
     // Loop para ler e preencher na memoria com os Bits
-    for(y = 0; y < bf.BIHeader.imageHeight; y++){
+    for(y = 0; y < bf.BIHeader.imageHeight; y++) {
         repBMP[y] = (unsigned char *) malloc(totalWidth * sizeof(unsigned char) + 1);
         memset(repBMP[y],'\0', (sizeof(unsigned char) * totalWidth + 1));
         readBits = 0;
 
-        for(x = 0; x < bytesPerRow; x++){
+        for(x = 0; x < bytesPerRow; x++) {
             fread(&actualByte,1,1,fp);
-            for(count = 7; count >= 0; count--){
+            for(count = 7; count >= 0; count--) {
                 if(readBits < totalWidth) {
                     if(checkBit(&actualByte, count) == 1) repBMP[y][readBits] = '1';
                     else repBMP[y][readBits] = '0';
@@ -73,7 +69,7 @@ int main(int argc, char **argv){
     }
 
     // Show Image on Terminal
-    for(y = bf.BIHeader.imageHeight-1; y >= 0; y--){
+    for(y = bf.BIHeader.imageHeight-1; y >= 0; y--) {
             printf("%s\n", repBMP[y]);
     }
 
