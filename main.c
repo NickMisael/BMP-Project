@@ -96,5 +96,36 @@ int main(int argc, char **argv) {
         printf("%s\n", repBMP[y]);
     }
 
+
+    /* RLE Compressor
+    // Loop para ler e preencher na memoria com os Bits
+    for(y = 0; y < bf.BIHeader.imageHeight; y++){
+        readBits = quantBitsSeguidos = 0;
+
+        for(x = 0; x < bytesPerRow; x++){
+            fread(&actualByte,1,1,fp);
+            for(count = 7; count >= 0; count--){
+                if(readBits < totalWidth) {
+                    if(count == 7 ) {
+                        bitAtual = checkBit(&actualByte, count);
+                        quantBitsSeguidos++;
+                    } else {
+                        if((temp = checkBit(&actualByte, count)) == bitAtual) quantBitsSeguidos++;
+                        else {
+                            printf("%d:%d, ", quantBitsSeguidos, bitAtual);
+                            quantBitsSeguidos = 1;
+                            bitAtual = temp;
+                        }
+                        if(quantBitsSeguidos >= 0xff){
+                            return 0;
+                        }
+                    }
+                }
+                readBits++;
+            }
+        }
+        printf("%d:%d, ", quantBitsSeguidos, bitAtual);
+    }*/
+    
     return 0;
 }
